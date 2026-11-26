@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Список дел — Express & PostgreSQL</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <main class="container">
+    <header class="page-header">
+      <h1>Список дел</h1>
+      <p class="subtitle">Express + PostgreSQL</p>
+    </header>
+
+    <section id="auth-section" class="card">
+      <form id="login-form" class="row-form">
+        <label class="field">
+          <span>Bearer-токен доступа</span>
+          <input id="token-input" type="password" required autocomplete="off" placeholder="Введите API_TOKEN">
+        </label>
+        <button type="submit">Войти</button>
+      </form>
+    </section>
+
+    <p id="status-msg" class="status" role="status" aria-live="polite"></p>
+
+    <section id="workspace" hidden>
+      <div class="card author-bar">
+        <div>
+          <strong id="author-name"></strong>
+          <span id="author-login" class="badge"></span>
+        </div>
+        <button id="logout-btn" type="button" class="btn-secondary">Выйти</button>
+      </div>
+
+      <div class="card controls">
+        <form id="run-form" class="row-form">
+          <label class="field">
+            <span>Набор (runId)</span>
+            <input id="run-input" value="manual" required maxlength="64" pattern="[A-Za-z0-9_\-]+">
+          </label>
+          <button type="submit" class="btn-secondary">Загрузить</button>
+        </form>
+
+        <form id="create-form" class="row-form">
+          <label class="field">
+            <span>Новое дело</span>
+            <input id="title-input" required maxlength="200" placeholder="Название задачи (1–200 символов)">
+          </label>
+          <button type="submit">Добавить</button>
+        </form>
+      </div>
+
+      <div class="list-header">
+        <h2 id="list-summary">Задачи</h2>
+      </div>
+      <ul id="task-list" class="task-list"></ul>
+    </section>
+  </main>
+</body>
+</html>

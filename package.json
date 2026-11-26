@@ -1,0 +1,19 @@
+{
+  "name": "itmo-todo-express-pg",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.js",
+    "db:init": "node --env-file-if-exists=.env scripts/init-db.js",
+    "verify": "node --env-file-if-exists=.env scripts/verify.js",
+    "moodle:send": "node --env-file-if-exists=.env scripts/send-moodle.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "pg": "^8.16.0"
+  }
+}
