@@ -7,13 +7,21 @@
     "node": ">=22.0.0"
   },
   "scripts": {
-    "start": "node --env-file-if-exists=.env server.js",
-    "db:init": "node --env-file-if-exists=.env scripts/init-db.js",
-    "verify": "node --env-file-if-exists=.env scripts/verify.js",
-    "moodle:send": "node --env-file-if-exists=.env scripts/send-moodle.js"
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "start": "node --env-file-if-exists=.env dist/server.js",
+    "db:init": "node --env-file-if-exists=.env dist/scripts/init-db.js",
+    "verify": "node --env-file-if-exists=.env dist/scripts/verify.js",
+    "moodle:send": "node --env-file-if-exists=.env dist/scripts/send-moodle.js"
   },
   "dependencies": {
     "express": "^5.1.0",
     "pg": "^8.16.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.0.0",
+    "@types/pg": "^8.11.0",
+    "typescript": "^5.7.0"
   }
 }

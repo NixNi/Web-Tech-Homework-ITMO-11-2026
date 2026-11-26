@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises';
 const { MOODLE_BASE_URL, MOODLE_WS_TOKEN, MOODLE_TEACHER_ID } = process.env;
 const messageFile = process.argv[2];
 
-if (!MOODLE_WS_TOKEN || !/^[1-9]\d*$/.test(MOODLE_TEACHER_ID ?? '') || !messageFile) {
+if (!MOODLE_WS_TOKEN || !MOODLE_TEACHER_ID || !/^[1-9]\d*$/.test(MOODLE_TEACHER_ID) || !messageFile) {
   throw new Error('Укажите MOODLE_WS_TOKEN, MOODLE_TEACHER_ID и путь к файлу с текстом.');
 }
 
@@ -36,10 +36,10 @@ if (!res.ok) {
   throw new Error(`Moodle API вернул статус ${res.status}`);
 }
 
-const data = await res.json();
-if (!Array.isArray(data) || !Number.isSafeInteger(data[0]?.msgid) || data[0].msgid <= 0) {
-  const errCode = data?.errorcode ? ` (${data.errorcode})` : '';
+const data = (await res.json()) as Array<{ msgid?: number }> | { errorcode?: string };
+if (!Array.isArray(data) || !Number.isSafeInteger(data[0]?.msgid) || (data[0]?.msgid ?? 0) <= 0) {
+  const errCode = !Array.isArray(data) && data?.errorcode ? ` (${data.errorcode})` : '';
   throw new Error(`Не удалось подтвердить отправку сообщения${errCode}.`);
 }
 
-console.log(`Сообщение доставлено в Moodle. msgid=${data[0].msgid}`);
+console.log(`Сообщение доставлено в Moodle. msgid=${data[0]?.msgid}`);

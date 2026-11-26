@@ -13,7 +13,7 @@ if (!login?.trim() || !fullName?.trim() || !token || /\s/.test(token)) {
 }
 
 const db = createPool(databaseUrl);
-db.on('error', (err) => {
+db.on('error', (err: Error & { code?: string }) => {
   console.error('PostgreSQL pool background error:', err.code ?? err.message);
 });
 
@@ -24,10 +24,10 @@ const server = app.listen(port, '0.0.0.0', () => {
   console.log(`Сервер запущен на порту ${port}`);
 });
 
-for (const signal of ['SIGINT', 'SIGTERM']) {
+for (const signal of ['SIGINT', 'SIGTERM'] as const) {
   process.once(signal, () => {
     server.close(() => {
-      db.end();
+      void db.end();
     });
   });
 }
